@@ -20,7 +20,7 @@ function sdir( $path='.', $mask='*', $nocache=0 ){
     return ($sdir);
 }
 
-$root = '/var/www/space/audiobooks/';
+$root = '/var/www/space/audiobooks/data/';
 setlocale(LC_ALL, 'et_EE.UTF8');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') :

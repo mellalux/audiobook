@@ -146,12 +146,6 @@ export default {
         const aubar = ref(null);
         let chapButtons = ref(null);
         
-        if (chapButtons.value === null) {
-            console.log("container is empty");
-        } else {
-            console.log("container has elements")
-        }
-
         onMounted(() => { 
             // the DOM element will be assigned to the ref after initial render
             // console.log(root.value.children[0]) // this is your $el
@@ -169,9 +163,9 @@ export default {
 
     data() {
         return {
-            debug: true,
+            debug: false,
             siteUrl: window.location.href,
-            booksUrl: 'https://audiobooks.mella.ee/',
+            booksUrl: 'https://audiobooks.mella.ee/data/',
             path: [],
             directories: [],
             dirs: [],
@@ -372,14 +366,6 @@ export default {
                     this.isPlaying = true;
                 })
             }   
-
-            if (this.debug) {
-                if (this.chapButtons.value === null) {
-                    console.log("container is empty");
-                } else {
-                    console.log("container has elements");
-                }
-            }
 
             this.activeTrackButton();
 
