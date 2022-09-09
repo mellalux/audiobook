@@ -1,0 +1,24 @@
+{
+  "name": "audiobook",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
+  },
+  "dependencies": {
+    "@popperjs/core": "^2.11.5",
+    "axios": "^0.27.2",
+    "bootstrap": "^5.2.1",
+    "core-js": "^3.8.3",
+    "sass-loader": "^13.0.2",
+    "save": "^2.5.0",
+    "vue": "^3.2.13",
+    "vue-axios": "^3.4.1"
+  },
+  "devDependencies": {
+    "@vue/cli-service": "~5.0.0",
+    "sass": "^1.54.8",
+    "vue-template-compiler": "^2.5.17"
+  }
+}
