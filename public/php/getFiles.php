@@ -1,5 +1,6 @@
 <?php
 
+// Reads files and directories from the given directory.
 function sdir( $path='.', $mask='*', $nocache=0 ){
     static $dir = array(); // cache result in memory
     if ( !isset($dir[$path]) || $nocache) {
