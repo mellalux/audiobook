@@ -6,7 +6,7 @@
                     class="d-inline-block align-text-top">
             </a>
             <span class="navbar-text text-white fw-bold">
-                <h4 class="appname display-8">AudioBook Player</h4>
+                <h4 class="appname display-8">{{ t.AppName }}</h4>
             </span>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -23,19 +23,19 @@
 
         <div class="row">
             <div v-if="dirs" class="col">
-                <span class="fs-2 fw-bolder">Catalogs</span>
+                <span class="fs-2 fw-bolder">{{ t.Catalogs }}</span>
             </div>
             <div v-else-if="files" class="col">
                 <span class="fs-2 fw-bolder">{{currentCatalog}}</span>
             </div>
             <div v-else class="col">
-                <span class="fs-2 fw-bolder">Fatal Error!</span>
+                <span class="fs-2 fw-bolder">{{ t.Nofiles }}</span>
             </div>
         </div>
 
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a :href="siteUrl">Home</a></li>
+                <li class="breadcrumb-item"><a :href="siteUrl">{{ t.Home }}</a></li>
                 <li v-for="p in path" :key="p.id" class="breadcrumb-item active" aria-current="page">{{p}}</li>
             </ol>
         </nav>
@@ -59,7 +59,7 @@
 
                 <div class="row">
                     <div class="col-1 border border-primary rounded-2 p-1 mx-1 mb-2 button_box">
-                        <svg version="1.1" @click="toggleAudio()" v-show="!isPlaying" baseProfile="tiny"
+                        <svg version="1.1" @click="toggleAudio()" :title="t.Play" v-show="!isPlaying" baseProfile="tiny"
                             xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
                             y="0px" viewBox="0 0 100 100" overflow="visible" xml:space="preserve">
                             <g id="play">
@@ -68,7 +68,7 @@
         		c-1.67-0.97-3.76,0.24-3.76,2.17l0,52c0,1.93,2.09,3.14,3.76,2.17l45.03-26C82.44,51.21,82.44,48.79,80.77,47.83z" />
                             </g>
                         </svg>
-                        <svg version="1.1" @click="toggleAudio()" v-show="isPlaying" baseProfile="tiny"
+                        <svg version="1.1" @click="toggleAudio()" :title="t.Pause" v-show="isPlaying" baseProfile="tiny"
                             xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
                             y="0px" viewBox="0 0 100 100" overflow="visible" xml:space="preserve">
                             <g id="pause">
@@ -102,7 +102,7 @@
 
                 <div class="row">
                     <div class="col border border-primary rounded-2 mx-1">
-                        <label for="speed" class="form-label">Speed: {{speedRate}}</label>
+                        <label for="speed" class="form-label">{{t.Speed + speedRate}}</label>
                         <input type="range" v-model="speedRate" class="form-range" min="0.25" max="2" step="0.25" id="speed">
                     </div>                    
                     <div class="col-2 border border-primary rounded-2 mx-1 d-flex align-items-center timeinfo">
@@ -110,7 +110,7 @@
             	        <span v-show="audioLoaded" class="w-100 text-center fw-bold lh-1">{{elapsed}}<br />{{total}}</span>
                     </div>
                     <div class="col border border-primary rounded-2 mx-1">
-                        <label for="volune" class="form-label">Volume: {{parseInt(Volume*100)}}</label>
+                        <label for="volune" class="form-label">{{t.Volume + parseInt(Volume*100)}}</label>
                         <input type="range" v-model="Volume" class="form-range" min="0.0" max="1" step="0.01" id="volume">
                     </div>
                </div>
@@ -120,7 +120,7 @@
 
         <div v-if="files" class="row">
             <div class="col">
-                <span class="fs-3 fw-bolder">Chapter(s):</span>
+                <span class="fs-3 fw-bolder">{{t.Chapters}}</span>
                 <div ref="chapButtons" class="d-grid gap-2 d-md-block p-2 mx-auto">
                     <button v-for="(file, index) in afile" :key="file.id" :id="'cap'+index" :data-play-track="index"
                         class="btn btn-primary m-1 track" type="button" @click="loadMP3" :title="file.name">
@@ -130,7 +130,6 @@
             </div>
         </div>
     </div>
-
 </template>
 
 <script>
@@ -161,6 +160,8 @@ export default {
         }
     },
 
+    props: ["t", "lang"],
+    
     data() {
         return {
             debug: false,
