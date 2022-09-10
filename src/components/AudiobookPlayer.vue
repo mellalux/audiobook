@@ -16,6 +16,11 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 </ul>
+                <div v-if="langs">
+                    <div class="langlink" v-for="(lng, index) in langs" :key="index">
+                        <span v-if="lng !== curlang" @click="langChange(lng)">{{lng.toUpperCase()}}</span>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
@@ -59,25 +64,20 @@
 
                 <div class="row">
                     <div class="col-1 border border-primary rounded-2 p-1 mx-1 mb-2 button_box">
-                        <svg version="1.1" @click="toggleAudio()" :title="t.Play" v-show="!isPlaying" baseProfile="tiny"
-                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
-                            y="0px" viewBox="0 0 100 100" overflow="visible" xml:space="preserve">
-                            <g id="play">
-                                <path fill="#0d6efd"
-                                    d="M95,50c0,24.85-20.15,45-45,45S5,74.85,5,50S25.15,5,50,5S95,25.15,95,50z M80.77,47.83l-45.03-26
-        		c-1.67-0.97-3.76,0.24-3.76,2.17l0,52c0,1.93,2.09,3.14,3.76,2.17l45.03-26C82.44,51.21,82.44,48.79,80.77,47.83z" />
-                            </g>
-                        </svg>
-                        <svg version="1.1" @click="toggleAudio()" :title="t.Pause" v-show="isPlaying" baseProfile="tiny"
-                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
-                            y="0px" viewBox="0 0 100 100" overflow="visible" xml:space="preserve">
-                            <g id="pause">
-                                <path fill="#0d6efd" d="M95,50c0,24.85-20.15,45-45,45S5,74.85,5,50S25.15,5,50,5S95,25.15,95,50z M45.78,72.47V27.53
-        		c0-1.4-1.13-2.53-2.53-2.53H27.3c-1.4,0-2.53,1.13-2.53,2.53v44.94c0,1.4,1.13,2.53,2.53,2.53h15.95
-        		C44.65,75,45.78,73.87,45.78,72.47z M74.78,72.47V27.53c0-1.4-1.13-2.53-2.53-2.53H56.29c-1.4,0-2.53,1.13-2.53,2.53v44.94
-        		c0,1.4,1.13,2.53,2.53,2.53h15.95C73.64,75,74.78,73.87,74.78,72.47z" />
-                            </g>
-                        </svg>
+                        <div @click="toggleAudio()" v-show="!isPlaying" :aria-label="t.Play" data-bs-toggle="tooltip" :data-bs-title="t.Play">
+                            <svg version="1.1" baseProfile="tiny" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" overflow="visible" xml:space="preserve">
+                                <g id="play">
+                                    <path fill="#0d6efd" d="M95,50c0,24.85-20.15,45-45,45S5,74.85,5,50S25.15,5,50,5S95,25.15,95,50z M80.77,47.83l-45.03-26 c-1.67-0.97-3.76,0.24-3.76,2.17l0,52c0,1.93,2.09,3.14,3.76,2.17l45.03-26C82.44,51.21,82.44,48.79,80.77,47.83z" />
+                                </g>
+                            </svg>
+                        </div>
+                        <div @click="toggleAudio()" v-show="isPlaying" :aria-label="t.Pause" data-bs-toggle="tooltip" :data-bs-title="t.Pause">
+                            <svg version="1.1" baseProfile="tiny" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" overflow="visible" xml:space="preserve">
+                                <g id="pause"> 
+                                    <path fill="#0d6efd" d="M95,50c0,24.85-20.15,45-45,45S5,74.85,5,50S25.15,5,50,5S95,25.15,95,50z M45.78,72.47V27.53 c0-1.4-1.13-2.53-2.53-2.53H27.3c-1.4,0-2.53,1.13-2.53,2.53v44.94c0,1.4,1.13,2.53,2.53,2.53h15.95 C44.65,75,45.78,73.87,45.78,72.47z M74.78,72.47V27.53c0-1.4-1.13-2.53-2.53-2.53H56.29c-1.4,0-2.53,1.13-2.53,2.53v44.94 c0,1.4,1.13,2.53,2.53,2.53h15.95C73.64,75,74.78,73.87,74.78,72.47z" />
+                                </g>
+                            </svg>
+                        </div>
                     </div>
                     <div class="col border border-primary rounded-2 p-1 mx-1 mb-2">
                         <div class="progress" ref="aubar" @click="seekTo" style="height: 30px;">
@@ -136,6 +136,11 @@
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import qs from "qs";
+import { Tooltip } from "bootstrap";
+
+new Tooltip(document.body, {
+    selector: "[data-bs-toggle='tooltip']",
+});
 
 export default {
     name: 'AudiobookPlayer',
@@ -160,7 +165,7 @@ export default {
         }
     },
 
-    props: ["t", "lang"],
+    props: ["t", "curlang", "langs"],
     
     data() {
         return {
@@ -301,6 +306,10 @@ export default {
                 this.audioDuration = Math.round(this.audio.duration);
                 this.audioPos = 'width: 0%;';
             }
+        },
+
+        langChange(lang) {
+            this.$emit('changeLang', lang);
         },
 
         loadDir(dir) {
@@ -513,6 +522,15 @@ export default {
 .container {
         padding: 35px;
         box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    }
+    .langlink {
+        float: left;
+        color: white;
+        padding-right: 15px;
+    }
+    .langlink span {
+        cursor: pointer;
+        padding: 5px;
     }
     .catalogs {
         cursor: pointer;

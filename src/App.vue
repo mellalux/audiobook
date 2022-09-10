@@ -1,5 +1,5 @@
 <template>
-    <AudiobookPlayer :t="t" :lang="lang" v-on:changeLang="clang()" />
+    <AudiobookPlayer :t="t" :curlang="curLang" :langs="langs" v-on:changeLang="changeLang" />
 </template>
 
 <script>
@@ -12,8 +12,8 @@ export default {
     data() {
         return {
             t: [],
-            lang: 'et'
-            //language: []
+            curLang: Object.keys(language)[0],
+            langs: Object.keys(language)
         }
     },
 
@@ -22,18 +22,18 @@ export default {
     },
 
     watch: {
-        lang: function () {
-            this.t = language[this.lang];
+        curLang: function () {
+            this.t = language[this.curLang];
         }
     },
 
     mounted() {
-        this.t = language[this.lang];
+        this.t = language[this.curLang];
     },
 
     methods: {
-        clang: function () {
-            this.lang = (this.lang === 'et') ? 'en' : 'et';
+        changeLang: function (lng) {
+            this.curLang = lng;
         }
     }
 }

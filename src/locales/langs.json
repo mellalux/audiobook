@@ -1,15 +1,4 @@
 {
-    "en": {
-        "AppName": "AudioBook Player",
-        "Home": "Home",
-        "Catalogs": "Catalogs: ",
-        "NoFiles": "No Chapters to play...",
-        "Chapters": "Chapters: ",
-        "Play": "Play",
-        "Pause": "Pause",
-        "Speed": "Speed: ",
-        "Volume": "Volume: "
-    },
     "et": {
         "AppName": "Audioraamatu mängija",
         "Home": "Kodu",
@@ -20,5 +9,16 @@
         "Pause": "Paus",
         "Speed": "Kiirus: ",
         "Volume": "Helitugevus: "
+    },
+    "en": {
+        "AppName": "AudioBook Player",
+        "Home": "Home",
+        "Catalogs": "Catalogs: ",
+        "NoFiles": "No Chapters to play...",
+        "Chapters": "Chapters: ",
+        "Play": "Play",
+        "Pause": "Pause",
+        "Speed": "Speed: ",
+        "Volume": "Volume: "
     }
 }
