@@ -1,6 +1,8 @@
 {
     "et": {
         "AppName": "Audioraamatu mängija",
+        "Author": "Rakenduse autor",
+        "Language": "Keel",
         "Home": "Kodu",
         "Catalogs": "Kataloogid:",
         "NoFiles": "Pole ühtki peatükki, mida mängida...",
@@ -12,6 +14,8 @@
     },
     "en": {
         "AppName": "AudioBook Player",
+        "Author": "The author of app",
+        "Language": "Language",
         "Home": "Home",
         "Catalogs": "Catalogs: ",
         "NoFiles": "No Chapters to play...",

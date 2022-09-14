@@ -1,22 +1,31 @@
 <template>
-    <AudiobookPlayer :t="t" :curlang="curLang" :langs="langs" v-on:changeLang="changeLang" />
+    <AudiobookPlayer v-if="start" :t="t" :curlang="curLang" :langs="langs" :conf="conf" v-on:changeLang="changeLang" />
 </template>
 
 <script>
 
+import axios from "axios";
+import ini from "ini";
 import language from './locales/langs.json';
 import AudiobookPlayer from './components/AudiobookPlayer.vue';
 
 export default {
     name: 'App',
+
     data() {
         return {
             t: [],
+            langs: Object.keys(language),
             curLang: Object.keys(language)[0],
-            langs: Object.keys(language)
+            conf: null,
+            start: false
         }
     },
+    
+    created() {
 
+    },
+    
     components: {
         AudiobookPlayer
     },
@@ -28,13 +37,25 @@ export default {
     },
 
     mounted() {
+        this.loadIni();
         this.t = language[this.curLang];
     },
 
     methods: {
+
+        async loadIni() {
+            let res = await axios.get(process.env.BASE_URL + "config.ini");
+            this.conf = ini.parse(res.data);
+            if (this.conf) {
+                this.curLang = this.conf.Vue.curLang;
+                this.start = true;
+            }
+        },
+
         changeLang: function (lng) {
             this.curLang = lng;
         }
+
     }
 }
 </script>

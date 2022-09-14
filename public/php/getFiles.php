@@ -23,13 +23,10 @@ function sdir( $path='.', $mask='*', $nocache=0 ){
 $root = '/var/www/space/audiobooks/data/';
 setlocale(LC_ALL, 'et_EE.UTF8');
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') :
-    $folder = $root . $_POST['folder'];
-else:
-    $folder = $root;
-endif;
-
-$logfile = file_put_contents('logs.txt', 'Sent folder: '. $folder . PHP_EOL, FILE_APPEND | LOCK_EX);
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $root = ($_POST['root']) ? $_POST['root'] : './data/';
+    $folder = ($_POST['folder']) ? $root . $_POST['folder'] : $root;
+}
 
 echo json_encode(sdir($folder, '*.mp3'));
 

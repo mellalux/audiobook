@@ -1,0 +1,5 @@
+{
+    "APP": "AudioBook Player",
+    "booksUrl": "https://audiobooks.mella.ee/data/",
+    "debug": false
+}

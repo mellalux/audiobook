@@ -1,36 +1,41 @@
 <template>
+     
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
-            <a class="navbar-brand" href="https://www.mella.ee" target="_blank">
-                <img src="@/assets/vektor_mella.png" alt="" width="50" height="50"
+            <div class="navbar-brand" @click="loadDir('')">
+                <img src="@/assets/audiobookicon.png" role="button" :alt="t.AppName" width="50" height="50"
                     class="d-inline-block align-text-top">
-            </a>
+            </div>
             <span class="navbar-text text-white fw-bold">
-                <h4 class="appname display-8">{{ t.AppName }}</h4>
+                <h4 class="display-8">{{ t.AppName }}</h4>
             </span>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#audionav"
+                aria-controls="audionav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <div class="collapse navbar-collapse justify-content-end" id="audionav">
+                <ul v-if="langs" class="navbar-nav mb-2 mb-lg-0">
+                    <li v-for="(lng, index) in langs" :key="index">
+                        <span role="button" class="nav-link" v-if="lng !== curlang" @click="langChange(lng)"
+                            :title="t.Language+': '+lng.toUpperCase()" :aria-label="t.Language+': '+lng.toUpperCase()">
+                            {{lng.toUpperCase()}}
+                        </span>
+                    </li>
                 </ul>
-                <div v-if="langs">
-                    <div class="langlink" v-for="(lng, index) in langs" :key="index">
-                        <span v-if="lng !== curlang" @click="langChange(lng)">{{lng.toUpperCase()}}</span>
-                    </div>
-                </div>
+                <a class="navbar-brand ms-5" href="https://www.mella.ee" target="_blank">
+                    <img src="@/assets/vektor_mella.png" :alt="t.Author" width="50" height="50" class="d-inline-block">
+                </a>
             </div>
         </div>
     </nav>
-    <div class="container">
+
+    <div class="container shadow p-3 mb-5 bg-body rounded">
 
         <div class="row">
             <div v-if="dirs" class="col">
                 <span class="fs-2 fw-bolder">{{ t.Catalogs }}</span>
             </div>
-            <div v-else-if="files" class="col">
+            <div v-else-if="afile.length > 0" class="col">
                 <span class="fs-2 fw-bolder">{{currentCatalog}}</span>
             </div>
             <div v-else class="col">
@@ -118,7 +123,7 @@
             </div>
         </div>
 
-        <div v-if="files" class="row">
+        <div v-if="afile.length > 0" class="row">
             <div class="col">
                 <span class="fs-3 fw-bolder">{{t.Chapters}}</span>
                 <div ref="chapButtons" class="d-grid gap-2 d-md-block p-2 mx-auto">
@@ -165,13 +170,14 @@ export default {
         }
     },
 
-    props: ["t", "curlang", "langs"],
+    props: ["t", "curlang", "langs", "conf"],
     
     data() {
         return {
             debug: false,
             siteUrl: window.location.href,
-            booksUrl: 'https://audiobooks.mella.ee/data/',
+            booksUrl: null,
+            root: './data/',
             path: [],
             directories: [],
             dirs: [],
@@ -204,6 +210,9 @@ export default {
     },
 
     mounted() {
+
+        this.debug = this.conf.Vue.debug;
+        this.booksUrl = this.conf.Vue.booksUrl;
 
         this.loadDir(this.folder);
         
@@ -296,11 +305,11 @@ export default {
         Volume: function () {
             this.audio.volume = this.Volume;
         }
-
     },
 
     methods: {
-        //Set the range slider max value equal to audio duration
+
+        // Set the range slider max value equal to audio duration
         initSlider() {
             if (this.audio) {
                 this.audioDuration = Math.round(this.audio.duration);
@@ -325,7 +334,10 @@ export default {
 
             this.folder = '';
 
-            if (dir) {
+            if (dir === '') {
+                this.path = [];
+                //this.entrance_inputs.splice(0, this.entrance_inputs.length);
+            } else {
                 this.path.push(dir);
                 if (this.debug) console.log(this.path);
             }
@@ -339,7 +351,8 @@ export default {
                 
             var url = './php/getFiles.php';
             const params = {
-                folder: this.folder
+                folder: this.folder,
+                root: this.conf.Vue.root //'/var/www/space/audiobooks/data/'
             };
             axios
                 .post(url, qs.stringify(params))
@@ -519,19 +532,7 @@ export default {
 </script>
 
 <style lang="scss">
-.container {
-        padding: 35px;
-        box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-    }
-    .langlink {
-        float: left;
-        color: white;
-        padding-right: 15px;
-    }
-    .langlink span {
-        cursor: pointer;
-        padding: 5px;
-    }
+
     .catalogs {
         cursor: pointer;
     }
