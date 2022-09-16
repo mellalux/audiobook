@@ -1,13 +1,13 @@
 <template>
      
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top bg-primary">
         <div class="container-fluid">
             <div class="navbar-brand" @click="loadDir('')">
                 <img src="@/assets/audiobookicon.png" role="button" :alt="t.AppName" width="50" height="50"
                     class="d-inline-block align-text-top">
             </div>
             <span class="navbar-text text-white fw-bold">
-                <h4 class="display-8">{{ t.AppName }}</h4>
+                <h2 class="navheading">{{ t.AppName }}</h2>
             </span>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#audionav"
                 aria-controls="audionav" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,17 +32,10 @@
     <div class="container shadow p-3 mb-5 bg-body rounded">
 
         <div class="row">
-            <div v-if="dirs" class="col">
-                <span class="fs-2 fw-bolder">{{ t.Catalogs }}</span>
-            </div>
-            <div v-else-if="afile.length > 0" class="col">
-                <span class="fs-2 fw-bolder">{{currentCatalog}}</span>
-            </div>
-            <div v-else class="col">
-                <span class="fs-2 fw-bolder">{{ t.Nofiles }}</span>
+            <div v-if="headingText" class="col">
+                <span class="fs-2 fw-bolder">{{ headingText }}</span>
             </div>
         </div>
-
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a :href="siteUrl">{{ t.Home }}</a></li>
@@ -55,7 +48,9 @@
 
                 <div class="row" v-for="dir in dirs" :key="dir.id">
                     <div class="col">
-                        <div class="shadow p-3 mb-1 bg-body rounded border bg-light catalogs" @click="loadDir(dir)">{{ dir }}</div>
+                        <div role="button" class="shadow p-3 mb-1 bg-body rounded border bg-light" @click="loadDir(dir)">
+                            {{ dir }}
+                        </div>
                     </div>
                 </div>
 
@@ -64,7 +59,7 @@
 
         <audio :src="src" type="audio/mpeg" hidden ref="audio" :id="playerid"></audio>
 
-        <div v-if="files" class="shadow p-3 mb-5 bg-body rounded">
+        <div v-if="files.length > 0" class="shadow p-3 mb-5 bg-body rounded">
             <div class="col">
 
                 <div class="row">
@@ -123,7 +118,7 @@
             </div>
         </div>
 
-        <div v-if="afile.length > 0" class="row">
+        <div v-if="files.length > 0" class="row">
             <div class="col">
                 <span class="fs-3 fw-bolder">{{t.Chapters}}</span>
                 <div ref="chapButtons" class="d-grid gap-2 d-md-block p-2 mx-auto">
@@ -134,6 +129,7 @@
                 </div>
             </div>
         </div>
+        
     </div>
 </template>
 
@@ -174,12 +170,12 @@ export default {
     
     data() {
         return {
+            // App stuff
             debug: false,
             siteUrl: window.location.href,
             booksUrl: null,
             root: './data/',
             path: [],
-            directories: [],
             dirs: [],
             files: [],
             afile: [{
@@ -188,7 +184,13 @@ export default {
                 url: null
             }],
             folder: '',
-            src: '',
+            currentTrack: 0,
+            currentCatalog: '',
+            headingText: '',
+            result: null,
+
+            // Audio stuff
+            src: null,
             playbackTime: 0,
             audioDuration: 100,
             audioPos: 0,
@@ -198,8 +200,6 @@ export default {
             audioLoaded: false,
             isPlaying: false,
             listenerActive: false,
-            currentTrack: 0,
-            currentCatalog: '',
             elapsed: '00:00',
             total: '00:00'
         }
@@ -211,12 +211,17 @@ export default {
 
     mounted() {
 
+        document.title = this.conf.Vue.AppName;
         this.debug = this.conf.Vue.debug;
         this.booksUrl = this.conf.Vue.booksUrl;
-
+        
         this.loadDir(this.folder);
         
         this.$nextTick(function () {
+
+            this.$watch('t', function() {
+                this.changeHeading();
+            });
 
             //Wait for audio to load, then run initSlider() to get audio duration and set the max value of our slider 
             // "loademetadata" Event https://www.w3schools.com/tags/av_event_loadedmetadata.asp
@@ -270,7 +275,7 @@ export default {
     watch: {
         files: function () {
             this.afile.splice(0);
-            if (this.files) {
+            if (this.files.length > 0) {
                 this.files.forEach((e,i) => {
                     this.afile.push({
                         nr: '#' + (i + 1),
@@ -290,8 +295,12 @@ export default {
                         this.audio.play();
                         this.isPlaying = true;
                     })
-                }                
+                }   
             }
+        },
+        
+        result: function() {
+            this.changeHeading();
         },
 
         isPlaying: function() {
@@ -321,17 +330,37 @@ export default {
             this.$emit('changeLang', lang);
         },
 
+        changeHeading() {
+            switch (this.result) {
+                case -1:
+                    this.headingText = 'ERROR';
+                    break;
+                case 0:
+                    this.headingText = this.t.NoFiles;
+                    break;
+                case 1:
+                    this.headingText = this.t.Catalogs;
+                    break;
+                case 2:
+                    this.headingText = this.t.Catalogs;
+                    break;
+                case 3:
+                    this.headingText = this.currentCatalog;
+                    break;
+
+            }
+        },
+
         loadDir(dir) {
-            
-            // if (this.debug) console.log('Href: ' + window.location.href);
-            // if (this.debug) console.log('Pathname: ' + window.location.pathname + ', length: ' + window.location.pathname.length);
 
-            // if (window.location.pathname.length > 1) {
-            //     if (this.debug) console.log('window.location.pathname is more 1 character long.');
-            
-            //     this.folder = window.location.pathname.substring(1);
-            // }
+            if (this.isPlaying) {
+                this.isPlaying = false;
+                this.listenerActive = false;
+                this.audio.pause();
+            }
 
+            this.dirs.splice(0);
+            this.files.splice(0);
             this.folder = '';
 
             if (dir === '') {
@@ -348,24 +377,25 @@ export default {
                 this.folder = this.folder + e + '/';   
                 if (this.debug) console.log('Current folder: ' + this.folder);
             });
-                
-            var url = './php/getFiles.php';
+            
+            this.getFiles();
+
+        },
+
+        getFiles() {
+            let url = './php/getFiles.php';
             const params = {
                 folder: this.folder,
-                root: this.conf.Vue.root //'/var/www/space/audiobooks/data/'
+                root: this.conf.Vue.root
             };
             axios
                 .post(url, qs.stringify(params))
                 .then((response) => {
-                    this.dirs = response.data.dir;
-                    this.files = response.data.file;          
+                    if (response.data.dir !== undefined) { this.dirs = response.data.dir; }
+                    if (response.data.file !== undefined) { this.files = response.data.file; }
+                    this.result = response.data.result;
+                    if (this.debug) console.log(response.data);
                 });
-
-            // if (this.folder.length > 1) {
-            //     const curFolder = new URL(window.location.href + this.folder); 
-            //     window.history.pushState("state", "title", curFolder.href);
-            //     if (this.debug) console.log('Url changed!');
-            // }        
         },
 
         loadMP3(e) {
@@ -404,15 +434,17 @@ export default {
 
         activeTrackButton() {
 
-            for (let i = 0; i < this.chapButtons.childElementCount; i++) {
-                const button = this.chapButtons.children[i];
-                if (button.classList.contains('btn-danger')) {
-                    button.classList.remove('btn-danger');
-                    button.classList.add('btn-primary');
-                } 
-                if (i == this.currentTrack) {
-                    button.classList.remove('btn-primary');
-                    button.classList.add('btn-danger');
+            if (this.chapButtons.childElementCount > 0) {
+                for (let i = 0; i < this.chapButtons.childElementCount; i++) {
+                    const button = this.chapButtons.children[i];
+                    if (button.classList.contains('btn-danger')) {
+                        button.classList.remove('btn-danger');
+                        button.classList.add('btn-primary');
+                    } 
+                    if (i == this.currentTrack) {
+                        button.classList.remove('btn-primary');
+                        button.classList.add('btn-danger');
+                    }
                 }
             }
 
@@ -532,10 +564,14 @@ export default {
 </script>
 
 <style lang="scss">
-
-    .catalogs {
-        cursor: pointer;
+    
+    .navheading {
+        margin-top: 0;
+        margin-bottom: 0;
+        font-weight: 500;
+        line-height: 1;
     }
+
     .progress {
         margin: 10px;
     }

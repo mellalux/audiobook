@@ -1,20 +1,7 @@
 {
-    "et": {
-        "AppName": "Audioraamatu mängija",
-        "Author": "Rakenduse autor",
-        "Language": "Keel",
-        "Home": "Kodu",
-        "Catalogs": "Kataloogid:",
-        "NoFiles": "Pole ühtki peatükki, mida mängida...",
-        "Chapters": "Peatükid:",
-        "Play": "Kuula",
-        "Pause": "Paus",
-        "Speed": "Kiirus: ",
-        "Volume": "Helitugevus: "
-    },
     "en": {
         "AppName": "AudioBook Player",
-        "Author": "The author of app",
+        "Author": "The author of app is Mella",
         "Language": "Language",
         "Home": "Home",
         "Catalogs": "Catalogs: ",
@@ -24,5 +11,18 @@
         "Pause": "Pause",
         "Speed": "Speed: ",
         "Volume": "Volume: "
+    },
+    "et": {
+        "AppName": "Audioraamatu mängija",
+        "Author": "Rakenduse autor on Mella",
+        "Language": "Keel",
+        "Home": "Kodu",
+        "Catalogs": "Kataloogid:",
+        "NoFiles": "Pole ühtki peatükki, mida mängida...",
+        "Chapters": "Peatükid:",
+        "Play": "Kuula",
+        "Pause": "Paus",
+        "Speed": "Kiirus: ",
+        "Volume": "Helitugevus: "
     }
 }
