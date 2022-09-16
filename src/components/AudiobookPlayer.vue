@@ -517,7 +517,6 @@ export default {
         pauseListener() {
             this.isPlaying = false;
             this.listenerActive = false;
-            if (this.debug) console.log('File paused.');
             this.cleanupListeners();
         },
 
