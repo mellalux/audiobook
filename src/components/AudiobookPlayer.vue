@@ -27,15 +27,16 @@
                 </a>
             </div>
         </div>
-    </nav>
+    </nav>    
 
-    <div class="container shadow p-3 mb-5 bg-body rounded">
+    <main class="container shadow p-3 mb-5 bg-body rounded">
 
         <div class="row">
-            <div v-if="headingText" class="col">
-                <span class="fs-2 fw-bolder">{{ headingText }}</span>
-            </div>
+            <header v-if="headingText" class="col">
+                <h1 class="fs-2 fw-bolder">{{ headingText }}</h1>
+            </header>
         </div>
+
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a :href="siteUrl">{{ t.Home }}</a></li>
@@ -47,31 +48,34 @@
             <div class="col">
 
                 <div class="row" v-for="dir in dirs" :key="dir.id">
-                    <div class="col">
-                        <div role="button" class="shadow p-3 mb-1 bg-body rounded border bg-light" @click="loadDir(dir)">
+                    <div class="col d-grid gap-2">
+                        <button type="button"
+                                role="button" 
+                                :title="dir" 
+                                class="btn shadow p-3 mb-1 bg-body rounded border bg-light"
+                                @click="loadDir(dir)">
                             {{ dir }}
-                        </div>
+                        </button>
                     </div>
                 </div>
 
             </div>
         </div>
 
-        <audio :src="src" type="audio/mpeg" hidden ref="audio" :id="playerid"></audio>
 
         <div v-if="files.length > 0" class="shadow p-3 mb-5 bg-body rounded">
             <div class="col">
 
                 <div class="row">
                     <div class="col-1 border border-primary rounded-2 p-1 mx-1 mb-2 button_box">
-                        <div @click="toggleAudio()" v-show="!isPlaying" :aria-label="t.Play" data-bs-toggle="tooltip" :data-bs-title="t.Play">
+                        <div v-if="!isPlaying" role="button" @click="toggleAudio()" :aria-label="t.Play">
                             <svg version="1.1" baseProfile="tiny" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" overflow="visible" xml:space="preserve">
                                 <g id="play">
                                     <path fill="#0d6efd" d="M95,50c0,24.85-20.15,45-45,45S5,74.85,5,50S25.15,5,50,5S95,25.15,95,50z M80.77,47.83l-45.03-26 c-1.67-0.97-3.76,0.24-3.76,2.17l0,52c0,1.93,2.09,3.14,3.76,2.17l45.03-26C82.44,51.21,82.44,48.79,80.77,47.83z" />
                                 </g>
                             </svg>
                         </div>
-                        <div @click="toggleAudio()" v-show="isPlaying" :aria-label="t.Pause" data-bs-toggle="tooltip" :data-bs-title="t.Pause">
+                        <div v-if="isPlaying" role="button" @click="toggleAudio()" :aria-label="t.Pause">
                             <svg version="1.1" baseProfile="tiny" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" overflow="visible" xml:space="preserve">
                                 <g id="pause"> 
                                     <path fill="#0d6efd" d="M95,50c0,24.85-20.15,45-45,45S5,74.85,5,50S25.15,5,50,5S95,25.15,95,50z M45.78,72.47V27.53 c0-1.4-1.13-2.53-2.53-2.53H27.3c-1.4,0-2.53,1.13-2.53,2.53v44.94c0,1.4,1.13,2.53,2.53,2.53h15.95 C44.65,75,45.78,73.87,45.78,72.47z M74.78,72.47V27.53c0-1.4-1.13-2.53-2.53-2.53H56.29c-1.4,0-2.53,1.13-2.53,2.53v44.94 c0,1.4,1.13,2.53,2.53,2.53h15.95C73.64,75,74.78,73.87,74.78,72.47z" />
@@ -88,22 +92,17 @@
                             </div>
                         </div>
                     </div>
-                    <!--             <div class="col-1 button_box">
-                    
+                    <!--             
+                    <div class="col-1 button_box">       
+
                     </div>
-                    <div class="col-1 button_box">
-                    
-                    </div>
-                    <div class="col-1 button_box">
-                    
-                    </div>
- -->
+                    -->
                 </div>
 
                 <div class="row">
                     <div class="col border border-primary rounded-2 mx-1">
                         <label for="speed" class="form-label">{{t.Speed + speedRate}}</label>
-                        <input type="range" v-model="speedRate" class="form-range" min="0.25" max="2" step="0.25" id="speed">
+                        <input type="range" v-model="speedRate" class="form-range" min="0.25" max="2" step="0.05" id="speed">
                     </div>                    
                     <div class="col-2 border border-primary rounded-2 mx-1 d-flex align-items-center timeinfo">
             	        <span v-show="!audioLoaded" class="w-100 text-center fw-bold">Loading please wait...</span>                    
@@ -130,7 +129,10 @@
             </div>
         </div>
         
-    </div>
+    </main>
+
+    <audio :src="src" type="audio/mpeg" hidden ref="audio" :id="playerid"></audio>
+
 </template>
 
 <script>
