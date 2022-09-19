@@ -39,8 +39,17 @@
 
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a :href="siteUrl">{{ t.Home }}</a></li>
-                <li v-for="p in path" :key="p.id" class="breadcrumb-item active" aria-current="page">{{p}}</li>
+                <li class="breadcrumb-item" :class="(path.length === 0) ? 'active' : ''">
+                    <a v-if="path.length !== 0" href="#" @click="breadcrumb" :data-brdb-val="null" >{{ t.Home }}</a>
+                    <span v-else>{{ t.Home }}</span>
+                </li>
+                <li v-for="(p, index) in path" 
+                    :key="index" 
+                    :class="(index === path.length-1) ? 'active' : ''"
+                    class="breadcrumb-item">
+                    <a v-if="index !== path.length-1" href="#" @click="breadcrumb" :data-brdb-val="(index+1)">{{p}}</a>
+                    <span v-else>{{p}}</span>
+                </li>
             </ol>
         </nav>
 
@@ -398,6 +407,33 @@ export default {
                     this.result = response.data.result;
                     if (this.debug) console.log(response.data);
                 });
+        },
+
+        breadcrumb(e) {
+            e.preventDefault();
+
+            let item = e.target.getAttribute('data-brdb-val');
+
+            if (this.audio.duration > 0 && !this.audio.paused) {
+                this.isPlaying = false;
+                this.listenerActive = false;
+                this.audio.pause();
+            }
+
+            this.dirs.splice(0);
+            this.files.splice(0);
+            this.folder = '';
+ 
+            this.path = this.path.slice(0, item);
+
+            this.path.forEach((e) => {
+                this.folder = this.folder + e + '/';
+                if (this.debug) console.log('Current folder: ' + this.folder);
+            });
+            this.currentCatalog = this.path[this.path.length - 1];
+
+            this.getFiles();
+
         },
 
         loadMP3(e) {
