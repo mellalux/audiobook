@@ -140,7 +140,7 @@
         
     </main>
 
-    <audio :src="src" type="audio/mpeg" hidden ref="audio" :id="playerid"></audio>
+    <audio :src="src" :type="type" hidden ref="audio" :id="playerid"></audio>
 
 </template>
 
@@ -192,6 +192,7 @@ export default {
             afile: [{
                 nr: null,
                 name: null,
+                type: null,
                 url: null
             }],
             folder: '',
@@ -202,6 +203,7 @@ export default {
 
             // Audio stuff
             src: null,
+            type: null,
             playbackTime: 0,
             audioDuration: 100,
             audioPos: 0,
@@ -285,16 +287,23 @@ export default {
 
     watch: {
         files: function () {
+            let ptypes = {'mp3': 'audio/mpeg', 'wav': 'audio/wav', 'm4a': 'audio/m4a', 'ogg': 'audio/ogg', 'flac': 'audio/flac', 'webm':'audio/webm'};
+            let ext = null;
+
             this.afile.splice(0);
             if (this.files.length > 0) {
                 this.files.forEach((e,i) => {
+                    ext = e.split('.').pop();
                     this.afile.push({
                         nr: '#' + (i + 1),
                         name: e.split('.').slice(0, -1).join('.'),
+                        type: ptypes[ext],
                         url: this.booksUrl + this.folder + '/' + e
-                    })
+                    });
                 });
                 this.src = this.afile[this.currentTrack].url;
+                this.type = this.afile[this.currentTrack].type;
+
                 this.isPlaying = false;
                 this.listenerActive = false;
                 this.audio.load();
@@ -397,7 +406,8 @@ export default {
             let url = './php/getFiles.php';
             const params = {
                 folder: this.folder,
-                root: this.conf.Vue.root
+                root: this.conf.Vue.root,
+                types: this.conf.Vue.ftypes
             };
             axios
                 .post(url, qs.stringify(params))
@@ -447,6 +457,8 @@ export default {
             if (this.debug) console.log('Track nr: '+ this.currentTrack);
 
             this.src = this.afile[this.currentTrack].url;
+            this.type = this.afile[this.currentTrack].type;
+
             this.audio.load();
             this.audioDuration = Math.round(this.audio.duration);
 
@@ -568,6 +580,8 @@ export default {
             this.currentTrack++;
             if (this.afile[this.currentTrack]) {
                 this.src = this.afile[this.currentTrack].url;
+                this.type = this.afile[this.currentTrack].type;
+
                 this.audio.load();
                 this.audioDuration = Math.round(this.audio.duration);
 

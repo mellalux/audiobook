@@ -4,6 +4,7 @@
 function sdir( $path='.', $mask='*', $nocache=0 ){
     static $dir = []; // cache result in memory
     $sdir = [];
+    $ftypes = preg_split("/\,/",$mask);
     $dir_exists = false;
     $file_exists = false;
 
@@ -17,8 +18,12 @@ function sdir( $path='.', $mask='*', $nocache=0 ){
         
         foreach ($dir[$path] as $i=>$entry) {
             if ($entry!='.' && $entry!='..' ) {
-                if (is_file($path . $entry) && fnmatch($mask, $entry)) {
-                    $sdir['file'][] = $entry;
+                if (is_file($path . $entry)) {
+                    foreach ($ftypes as $j=>$type) {
+                        if (fnmatch('*.'.$type, $entry)) {
+                            $sdir['file'][] = $entry;
+                        }
+                    }
                 } else {
                     if (is_dir($path . $entry)) {
                         $sdir['dir'][] = $entry;
@@ -56,8 +61,9 @@ setlocale(LC_ALL, 'et_EE.UTF8');
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $root = ($_POST['root']) ? $_POST['root'] : './data/';
     $folder = ($_POST['folder']) ? $root . $_POST['folder'] : $root;
+    $types = ($_POST['types']) ? $_POST['types'] : 'mp3';
 }
 
-echo json_encode(sdir($folder, '*.mp3')) ;
+echo json_encode(sdir($folder, $types));
 
 ?>
