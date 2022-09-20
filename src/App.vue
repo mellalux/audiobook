@@ -47,7 +47,7 @@ export default {
             let res = await axios.get(process.env.BASE_URL + "config.ini");
             this.conf = ini.parse(res.data);
             if (this.conf) {
-                this.curLang = this.conf.Vue.curLang;
+                this.curLang = this.conf.curLang;
                 this.start = true;
             }
         },

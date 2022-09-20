@@ -224,9 +224,9 @@ export default {
 
     mounted() {
 
-        document.title = this.conf.Vue.AppName;
-        this.debug = this.conf.Vue.debug;
-        this.booksUrl = this.conf.Vue.booksUrl;
+        document.title = this.conf.AppName;
+        this.debug = this.conf.debug;
+        this.booksUrl = this.conf.booksUrl;
         
         this.loadDir(this.folder);
         
@@ -288,16 +288,14 @@ export default {
     watch: {
         files: function () {
             let ptypes = {'mp3': 'audio/mpeg', 'wav': 'audio/wav', 'm4a': 'audio/m4a', 'ogg': 'audio/ogg', 'flac': 'audio/flac', 'webm':'audio/webm'};
-            let ext = null;
 
             this.afile.splice(0);
             if (this.files.length > 0) {
                 this.files.forEach((e,i) => {
-                    ext = e.split('.').pop();
                     this.afile.push({
                         nr: '#' + (i + 1),
                         name: e.split('.').slice(0, -1).join('.'),
-                        type: ptypes[ext],
+                        type: ptypes[e.split('.').pop().toLowerCase()],
                         url: this.booksUrl + this.folder + '/' + e
                     });
                 });
@@ -406,8 +404,8 @@ export default {
             let url = './php/getFiles.php';
             const params = {
                 folder: this.folder,
-                root: this.conf.Vue.root,
-                types: this.conf.Vue.ftypes
+                root: this.conf.root,
+                types: this.conf.ftypes
             };
             axios
                 .post(url, qs.stringify(params))

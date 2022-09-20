@@ -20,7 +20,7 @@ function sdir( $path='.', $mask='*', $nocache=0 ){
             if ($entry!='.' && $entry!='..' ) {
                 if (is_file($path . $entry)) {
                     foreach ($ftypes as $j=>$type) {
-                        if (fnmatch('*.'.$type, $entry)) {
+                        if (fnmatch('*.'.$type, strtolower($entry))) {
                             $sdir['file'][] = $entry;
                         }
                     }
