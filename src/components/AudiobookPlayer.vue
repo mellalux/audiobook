@@ -1,34 +1,5 @@
 <template>
      
-    <nav class="navbar navbar-expand-lg navbar-dark sticky-top bg-primary">
-        <div class="container-fluid">
-            <div class="navbar-brand" @click="loadDir('')">
-                <img src="@/assets/audiobookicon.png" role="button" :alt="t.AppName" width="50" height="50"
-                    class="d-inline-block align-text-top">
-            </div>
-            <span class="navbar-text text-white fw-bold">
-                <h2 class="navheading">{{ t.AppName }}</h2>
-            </span>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#audionav"
-                aria-controls="audionav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-end" id="audionav">
-                <ul v-if="langs" class="navbar-nav mb-2 mb-lg-0">
-                    <li v-for="(lng, index) in langs" :key="index">
-                        <span role="button" class="nav-link" v-if="lng !== curlang" @click="langChange(lng)"
-                            :title="t.Language+': '+lng.toUpperCase()" :aria-label="t.Language+': '+lng.toUpperCase()">
-                            {{lng.toUpperCase()}}
-                        </span>
-                    </li>
-                </ul>
-                <a class="navbar-brand ms-5" href="https://www.mella.ee" target="_blank">
-                    <img src="@/assets/vektor_mella.png" :alt="t.Author" width="50" height="50" class="d-inline-block">
-                </a>
-            </div>
-        </div>
-    </nav>    
-
     <main class="container shadow p-3 mb-5 bg-body rounded">
 
         <div class="row">
@@ -131,7 +102,7 @@
                 <span class="fs-3 fw-bolder">{{t.Chapters}}</span>
                 <div ref="chapButtons" class="d-grid gap-2 d-md-block p-2 mx-auto">
                     <button v-for="(file, index) in afile" :key="file.id" :id="'cap'+index" :data-play-track="index"
-                        class="btn btn-primary m-1 track" type="button" @click="loadMP3" :title="file.name">
+                        class="btn btn-primary m-1 track" type="button" @click="loadTrack" :title="file.name">
                         {{file.nr}}
                     </button>
                 </div>
@@ -177,7 +148,7 @@ export default {
         }
     },
 
-    props: ["t", "curlang", "langs", "conf"],
+    props: ["t", "conf"],
     
     data() {
         return {
@@ -344,10 +315,6 @@ export default {
             }
         },
 
-        langChange(lang) {
-            this.$emit('changeLang', lang);
-        },
-
         changeHeading() {
             switch (this.result) {
                 case -1:
@@ -380,6 +347,7 @@ export default {
             this.dirs.splice(0);
             this.files.splice(0);
             this.folder = '';
+            this.currentTrack = 0;
 
             if (dir === '') {
                 this.path = [];
@@ -431,6 +399,7 @@ export default {
             this.dirs.splice(0);
             this.files.splice(0);
             this.folder = '';
+            this.currentTrack = 0;
  
             this.path = this.path.slice(0, item);
 
@@ -444,7 +413,7 @@ export default {
 
         },
 
-        loadMP3(e) {
+        loadTrack(e) {
             e.preventDefault();
     
             this.currentTrack = e.target.getAttribute('data-play-track');

@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@popperjs/core": "^2.11.5",
+    "accessibility": "^4.2.0",
     "axios": "^0.27.2",
     "bootstrap": "^5.2.1",
     "core-js": "^3.8.3",
