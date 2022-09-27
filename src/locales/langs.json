@@ -2,7 +2,7 @@
     "en": {
         "AppName": "AudioBook Player",
         "Author": "The author of app is Mella",
-        "Language": "Language",
+        "Language": "Choose language",
         "Home": "Home",
         "Catalogs": "Catalogs: ",
         "NoFiles": "No Chapters to play...",
@@ -15,7 +15,7 @@
     "et": {
         "AppName": "Audioraamatu mängija",
         "Author": "Rakenduse autor on Mella",
-        "Language": "Keel",
+        "Language": "Vali keel",
         "Home": "Kodu",
         "Catalogs": "Kataloogid:",
         "NoFiles": "Pole ühtki peatükki, mida mängida...",

@@ -42,7 +42,6 @@
             </div>
         </div>
 
-
         <div v-if="files.length > 0" class="shadow p-3 mb-5 bg-body rounded">
             <div class="col">
 
@@ -119,11 +118,11 @@
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import qs from "qs";
-import { Tooltip } from "bootstrap";
+// import { Tooltip } from "bootstrap";
 
-new Tooltip(document.body, {
-    selector: "[data-bs-toggle='tooltip']",
-});
+// new Tooltip(document.body, {
+//     selector: "[data-bs-toggle='tooltip']",
+// });
 
 export default {
     name: 'AudiobookPlayer',
@@ -582,7 +581,38 @@ export default {
 </script>
 
 <style lang="scss">
+
+    body {
+        min-height: 100vh;
+        margin: 0 0;
+        background: repeating-linear-gradient(-60deg, #888 0 20px, #999 0 40px);
+    }
+
+    .example {
+        float: left;
+        width: 300px;
+        margin: 30px 10px;
+        padding: 10px;
+        border: 1px solid transparent;
+        /* нужен для работы в Edge, ну и как фолбэк сгодится */
+        border-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3Cdefs%3E%3Cfilter id='blurMe'%3E%3CfeGaussianBlur in='SourceGraphic' stdDeviation='3' /%3E%3C/filter%3E%3Csymbol id='card' viewBox='0 0 80 80' width='80' height='80'%3E%3Cpath d='M10,0h60c7,1+9,3+10,10v60h-10v10h-60a10,10+0,00-10-10v-60Z'/%3E%3C/symbol%3E%3C/defs%3E%3Cuse xlink:href='%23card' style='fill:%23000; opacity: 0.4; filter:url(%23blurMe);' x='10' y='15' width='80' height='80'/%3E%3Cuse xlink:href='%23card' style='fill:%23ffc' x='10' y='10' width='80' height='80'/%3E%3C/svg%3E%0A") 20 fill / 20px / 10px stretch;
+    }
     
+    .example:hover {
+        border-image: none;
+        background: #ffc;
+        border-radius: 10px;
+        box-shadow: 0 5px 5px rgba(0, 0, 0, 0.4);
+    }
+    
+    p {
+        clear: left;
+    }
+    
+    :focus-visible {
+        outline: none;
+    }
+
     .navheading {
         margin-top: 0;
         margin-bottom: 0;
@@ -620,25 +650,25 @@ export default {
 */    
     @media (min-width: 768px) {
         .track {
-            width: 203px;
+            width: 216px;
         }
     }
     
     @media (min-width: 992px) {
         .track {
-            width: 210px;
+            width: 220px;
         }
     }
     
     @media (min-width: 1200px) {
         .track {
-            width: 202px;
+            width: 210px;
         }
     }
     
     @media (min-width: 1400px) {
         .track {
-            width: 197px;
+            width: 204px;
         }
     }
 </style>
