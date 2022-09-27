@@ -64,7 +64,7 @@
                     </div>
                     <div class="col border border-primary rounded-2 p-1 mx-1 mb-2">
                         <div class="progress" ref="aubar" @click="seekTo" style="height: 30px;">
-                            <div class="progress-bar progress-bar-striped" :class="{ 'progress-bar-animated': isPlaying }" role="progressbar" aria-label="Example with label"
+                            <div class="progress-bar progress-bar-striped" :class="{ 'progress-bar-animated': isPlaying }" role="progressbar" :aria-label="valuenow"
                                 aria-valuemin="0" :aria-valuenow="valuenow" :aria-valuemax="audioDuration"
                                 :style="audioPos">
                                 {{valuenow}}%
@@ -582,33 +582,6 @@ export default {
 
 <style lang="scss">
 
-    body {
-        min-height: 100vh;
-        margin: 0 0;
-        background: repeating-linear-gradient(-60deg, #888 0 20px, #999 0 40px);
-    }
-
-    .example {
-        float: left;
-        width: 300px;
-        margin: 30px 10px;
-        padding: 10px;
-        border: 1px solid transparent;
-        /* нужен для работы в Edge, ну и как фолбэк сгодится */
-        border-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3Cdefs%3E%3Cfilter id='blurMe'%3E%3CfeGaussianBlur in='SourceGraphic' stdDeviation='3' /%3E%3C/filter%3E%3Csymbol id='card' viewBox='0 0 80 80' width='80' height='80'%3E%3Cpath d='M10,0h60c7,1+9,3+10,10v60h-10v10h-60a10,10+0,00-10-10v-60Z'/%3E%3C/symbol%3E%3C/defs%3E%3Cuse xlink:href='%23card' style='fill:%23000; opacity: 0.4; filter:url(%23blurMe);' x='10' y='15' width='80' height='80'/%3E%3Cuse xlink:href='%23card' style='fill:%23ffc' x='10' y='10' width='80' height='80'/%3E%3C/svg%3E%0A") 20 fill / 20px / 10px stretch;
-    }
-    
-    .example:hover {
-        border-image: none;
-        background: #ffc;
-        border-radius: 10px;
-        box-shadow: 0 5px 5px rgba(0, 0, 0, 0.4);
-    }
-    
-    p {
-        clear: left;
-    }
-    
     :focus-visible {
         outline: none;
     }

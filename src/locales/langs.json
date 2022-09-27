@@ -1,5 +1,6 @@
 {
     "en": {
+        "langName": "English",
         "AppName": "AudioBook Player",
         "Author": "The author of app is Mella",
         "Language": "Choose language",
@@ -13,6 +14,7 @@
         "Volume": "Volume: "
     },
     "et": {
+        "langName": "Eesti",
         "AppName": "Audioraamatu mängija",
         "Author": "Rakenduse autor on Mella",
         "Language": "Vali keel",

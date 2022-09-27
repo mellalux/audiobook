@@ -19,13 +19,13 @@
 
                     <span v-for="(lng, index) in langs" :key="index">
                         <a href="#" role="button" class="langlink" v-if="lng !== curLang" @click.prevent="curLang = lng;"
-                            :title="t.Language+': '+lng.toUpperCase()" :aria-label="t.Language+': '+lng.toUpperCase()">
+                            :title="langName[lng]" :aria-label="langName[lng]">
                             {{lng.toUpperCase()}}
                         </a>
                     </span>
                 </div>
 
-                <div class="author text-center">
+                <div class="author text-center" :aria-label="t.Author">
                     <a class="navbar-brand" href="https://www.mella.ee" target="_blank">
                         <img src="@/assets/vektor_mella.png" :alt="t.Author" width="50" height="50" class="d-inline-block">
                     </a>
@@ -40,6 +40,7 @@
     <footer class="fixed-bottom sticky-bottom footerstyle">
         <p class="text-center pt-2 lh-1">Copyright &copy Meelis Luks 2022</p>
     </footer>
+
 </template>
 
 <script>
@@ -57,6 +58,7 @@ export default {
             t: [],
             langs: Object.keys(language),
             curLang: Object.keys(language)[0],
+            langName: [],
             conf: null,
             start: false,
             siteUrl: null
@@ -83,6 +85,10 @@ export default {
         this.t = language[this.curLang];
         window.addEventListener('load', function () { new Accessibility(); }, false);
 
+        this.langs.forEach((e,i) => {
+            this.langName[e] = language[e].langName;
+        })
+
     },
 
     methods: {
@@ -102,15 +108,22 @@ export default {
 </script>
 
 <style lang="scss">
-#app {
+    
+    body {
+        min-height: 100vh;
+        margin: 0 0;
+        background: repeating-linear-gradient(-60deg, #888 0 20px, #999 0 40px);
+    }
+
+    #app {
         font-family: Avenir, Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         color: #2c3e50;
         min-height: 80vh;
-            height: auto !important;
-            height: 100%;
-            margin: 0 auto -60px;
+        height: auto !important;
+        height: 100%;
+        margin: 0 auto -60px;
     }
     .navstyle {
         margin: 0;
@@ -162,4 +175,5 @@ export default {
             margin-top: 25px;
         }
     }
+
 </style>
