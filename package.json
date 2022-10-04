@@ -17,6 +17,7 @@
     "vue-axios": "^3.4.1"
   },
   "devDependencies": {
+    "@vue/cli-plugin-pwa": "^5.0.8",
     "@vue/cli-service": "~5.0.0",
     "sass": "^1.55.0"
   }

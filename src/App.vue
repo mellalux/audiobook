@@ -14,10 +14,10 @@
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="audionav">
                 
-                <div v-if="langs" class="text-center">
+                <div v-if="langs" class="text-center"  :aria-label="t.Language" aria-labelledby="langs">
                     <span class="langlabel">{{t.Language}}:  </span>
 
-                    <span v-for="(lng, index) in langs" :key="index">
+                    <span id="langs" v-for="(lng, index) in langs" :key="index">
                         <a href="#" role="button" class="langlink" v-if="lng !== curLang" @click.prevent="curLang = lng;"
                             :title="langName[lng]" :aria-label="langName[lng]">
                             {{lng.toUpperCase()}}
@@ -85,7 +85,7 @@ export default {
         this.t = language[this.curLang];
         window.addEventListener('load', function () { new Accessibility(); }, false);
 
-        this.langs.forEach((e,i) => {
+        this.langs.forEach((e) => {
             this.langName[e] = language[e].langName;
         })
 
@@ -123,7 +123,7 @@ export default {
         min-height: 80vh;
         height: auto !important;
         height: 100%;
-        margin: 0 auto -60px;
+        margin: 0 auto 50px;
     }
     .navstyle {
         margin: 0;

@@ -1,5 +1,7 @@
 <template>
      
+    <audio :src="src" :type="type" hidden ref="audio" :id="playerid"></audio>
+
     <main class="container shadow p-3 mb-5 bg-body rounded">
 
         <div class="row">
@@ -11,14 +13,14 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item" :class="(path.length === 0) ? 'active' : ''">
-                    <a v-if="path.length !== 0" href="#" @click="breadcrumb" :data-brdb-val="null" >{{ t.Home }}</a>
+                    <a v-if="path.length !== 0" href="#" @click.prevent="breadcrumb" :data-brdb-val="null" >{{ t.Home }}</a>
                     <span v-else>{{ t.Home }}</span>
                 </li>
                 <li v-for="(p, index) in path" 
                     :key="index" 
                     :class="(index === path.length-1) ? 'active' : ''"
                     class="breadcrumb-item">
-                    <a v-if="index !== path.length-1" href="#" @click="breadcrumb" :data-brdb-val="(index+1)">{{p}}</a>
+                    <a v-if="index !== path.length-1" href="#" @click.prevent="breadcrumb" :data-brdb-val="(index+1)">{{p}}</a>
                     <span v-else>{{p}}</span>
                 </li>
             </ol>
@@ -101,7 +103,7 @@
                 <span class="fs-3 fw-bolder">{{t.Chapters}}</span>
                 <div ref="chapButtons" class="d-grid gap-2 d-md-block p-2 mx-auto">
                     <button v-for="(file, index) in afile" :key="file.id" :id="'cap'+index" :data-play-track="index"
-                        class="btn btn-primary m-1 track" type="button" @click="loadTrack" :title="file.name">
+                        class="btn btn-primary m-1 track" type="button" @click.prevent="loadTrack" :title="file.name">
                         {{file.nr}}
                     </button>
                 </div>
@@ -109,8 +111,6 @@
         </div>
         
     </main>
-
-    <audio :src="src" :type="type" hidden ref="audio" :id="playerid"></audio>
 
 </template>
 
@@ -385,7 +385,6 @@ export default {
         },
 
         breadcrumb(e) {
-            e.preventDefault();
 
             let item = e.target.getAttribute('data-brdb-val');
 
@@ -413,7 +412,6 @@ export default {
         },
 
         loadTrack(e) {
-            e.preventDefault();
     
             this.currentTrack = e.target.getAttribute('data-play-track');
             this.isPlaying = false;
@@ -581,7 +579,14 @@ export default {
 </script>
 
 <style lang="scss">
-
+    
+    button:focus-visible {
+        /* remove default focus style */
+        outline: none;
+        /* custom focus styles */
+        box-shadow: 0 0 2px 2px #51a7e8;
+        color: lime;
+    }
     :focus-visible {
         outline: none;
     }
