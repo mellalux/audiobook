@@ -1,6 +1,5 @@
 <template>
      
-    <!-- Audio element -->
     <audio :src="src" :type="type" hidden ref="audio" :id="playerid"></audio>
 
     <main class="container shadow p-3 mb-5 bg-body rounded">
