@@ -38,7 +38,7 @@
     <AudiobookPlayer v-if="start" :t="t" :conf="conf" />
 
     <footer class="fixed-bottom sticky-bottom footerstyle">
-        <p class="text-center pt-2 lh-1">Copyright &copy Meelis Luks 2022</p>
+        <p class="text-center pt-2 lh-1">Copyright (C) Meelis Luks 2022</p>
     </footer>
 
 </template>
@@ -48,7 +48,7 @@ import axios from "axios";
 import ini from "ini";
 import language from './locales/langs.json';
 import AudiobookPlayer from './components/AudiobookPlayer.vue';
-import { Accessibility } from 'accessibility/dist/main';
+//import { Accessibility } from 'accessibility';
 
 export default {
     name: 'App',
@@ -83,7 +83,9 @@ export default {
 
         this.loadIni();
         this.t = language[this.curLang];
-        window.addEventListener('load', function () { new Accessibility(); }, false);
+        // window.addEventListener('load', function () {
+        //     new Accessibility();
+        // }, false);
 
         this.langs.forEach((e) => {
             this.langName[e] = language[e].langName;
