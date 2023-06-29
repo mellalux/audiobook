@@ -84,6 +84,7 @@ export default {
 
         this.loadIni();
         this.t = language[this.curLang];
+        
         window.addEventListener('load', function () {
             new Accessibility();
         }, false);
