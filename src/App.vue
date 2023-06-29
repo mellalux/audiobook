@@ -48,7 +48,8 @@ import axios from "axios";
 import ini from "ini";
 import language from './locales/langs.json';
 import AudiobookPlayer from './components/AudiobookPlayer.vue';
-//import { Accessibility } from 'accessibility';
+import 'regenerator-runtime/runtime';
+import { Accessibility } from 'accessibility';
 
 export default {
     name: 'App',
@@ -83,9 +84,9 @@ export default {
 
         this.loadIni();
         this.t = language[this.curLang];
-        // window.addEventListener('load', function () {
-        //     new Accessibility();
-        // }, false);
+        window.addEventListener('load', function () {
+            new Accessibility();
+        }, false);
 
         this.langs.forEach((e) => {
             this.langName[e] = language[e].langName;
