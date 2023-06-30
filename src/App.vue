@@ -81,6 +81,7 @@ export default {
     },
 
     mounted() {
+        
         this.loadIni();
         this.t = language[this.curLang];
         

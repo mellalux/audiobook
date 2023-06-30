@@ -118,11 +118,6 @@
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import qs from "qs";
-// import { Tooltip } from "bootstrap";
-
-// new Tooltip(document.body, {
-//     selector: "[data-bs-toggle='tooltip']",
-// });
 
 export default {
     name: 'AudiobookPlayer',
@@ -133,11 +128,7 @@ export default {
         let chapButtons = ref(null);
         
         onMounted(() => { 
-            // the DOM element will be assigned to the ref after initial render
-            // console.log(root.value.children[0]) // this is your $el
-            // let el = chapButtons.value.children[0].value;
-            // console.log('1st el: '+el);
-            //Sortable.create(el, {})
+
         })
         
         return {
