@@ -20,6 +20,6 @@
   "devDependencies": {
     "@vue/cli-plugin-pwa": "^5.0.8",
     "@vue/cli-service": "^5.0.8",
-    "sass": "^1.55.0"
+    "sass": "^1.64.0"
   }
 }
