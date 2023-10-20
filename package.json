@@ -7,7 +7,6 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
-    "@sultanowski/dylemat-devenv": "^1.2.0",
     "accessibility": "^4.5.7",
     "axios": "^0.27.2",
     "bootstrap": "^5.2.1",
@@ -15,7 +14,10 @@
     "sass-loader": "^13.0.2",
     "save": "^2.5.0",
     "vue": "^3.2.13",
-    "vue-axios": "^3.4.1"
+    "vue-axios": "^3.4.1",
+    "postcss": ">=8.4.31",
+    "autoprefixer": "=10.2.5",
+    "cssnano": "=5.0.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-pwa": "^5.0.8",
