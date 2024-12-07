@@ -1,7 +1,7 @@
 # Audiobook player
 
 <p align="center">
-    <img src="https://github.com/mellalux/audiobook/raw/main/public/siteicons/android-chrome-512x512.png" width="300">
+    <img src="https://github.com/mellalux/audiobook/raw/main/src/assets/audiobookicon.png" width="300">
 </p>
 
 ## Project description
