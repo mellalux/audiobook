@@ -5,19 +5,30 @@
 </p>
 
 ## Project description
-```
-The file based MP3 player to play MP3 files given web site directories.
-```
+
+Audiobook Player is a lightweight web-based MP3 player designed to play audio files directly from website directories. It provides a simple file-based playback experience for audiobook and MP3 collections without requiring a separate media backend or streaming service.
+
+The application is intended for users who want a straightforward way to browse and listen to MP3 files stored in accessible web directories. Its main goals are simplicity, ease of use, and direct playback from an existing file structure.
+
+## Features
+
+- Play MP3 files from web-hosted directories
+- Browse and listen to audio files in a file-based layout
+- Lightweight and easy to set up
+- Built with a modern web frontend stack
 
 ## Project setup
-```
+
+```bash
 npm install
 ```
 
 ### Compiles and minifies for production
-```
+
+```bash
 npm run build
 ```
 
 ### Customize configuration
+
 See [Configuration Reference](https://cli.vuejs.org/config/).
