@@ -6,9 +6,9 @@
 
 ## Project description
 
-Audiobook Player is a lightweight web-based MP3 player designed to play audio files directly from website directories. It provides a simple file-based playback experience for audiobook and MP3 collections without requiring a separate media backend or streaming service.
+Audiobook Player is a lightweight web-based MP3 player designed to play audio files directly from website directories. It provides a simple file-based playback experience for audiobook and MP3 collections.
 
-The application is intended for users who want a straightforward way to browse and listen to MP3 files stored in accessible web directories. Its main goals are simplicity, ease of use, and direct playback from an existing file structure.
+The application is intended for users who want a straightforward way to browse and listen to MP3 files stored in accessible web directories. Its main goals are simplicity, ease of use, and direct playback without extra setup.
 
 ## Features
 
