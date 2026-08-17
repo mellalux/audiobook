@@ -15,7 +15,7 @@
     "save": "^2.5.0",
     "vue": "^3.2.13",
     "vue-axios": "^3.4.1",
-    "postcss": ">=8.4.31",
+    "postcss": ">=8.5.23",
     "autoprefixer": "=10.2.5",
     "cssnano": "=5.0.2"
   },
