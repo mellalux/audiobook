@@ -2,6 +2,7 @@
 node_modules
 /dist
 /bkup
+package-lock.json
 
 # local env files
 .env.local
